@@ -94,9 +94,10 @@ fun EmpresaList(navController: NavHostController, empresaDao: EmpresaDao) {
     Scaffold(
         topBar = { SmallTopAppBar(title = { Text("Empresas") }) },
         floatingActionButton = {
-            FloatingActionButton(onClick = {
-                navController.navigate("crearEmpresa")
-            }) {
+            FloatingActionButton(
+                onClick = { navController.navigate("crearEmpresa") },
+                containerColor = MaterialTheme.colorScheme.primary
+            ) {
                 Text("+")
             }
         }
@@ -131,26 +132,44 @@ fun EmpresaList(navController: NavHostController, empresaDao: EmpresaDao) {
                             verticalArrangement = Arrangement.spacedBy(8.dp),
                             horizontalAlignment = Alignment.CenterHorizontally
                         ) {
-                            Button(onClick = {
-                                navController.navigate("empleados/${empresa.id}")
-                            }) {
+                            // Ver Empleados - Secondary color for navigation
+                            Button(
+                                onClick = { navController.navigate("empleados/${empresa.id}") },
+                                colors = ButtonDefaults.buttonColors(
+                                    containerColor = MaterialTheme.colorScheme.secondary
+                                )
+                            ) {
                                 Text("Ver Empleados")
                             }
-                            Button(onClick = {
-                                navController.navigate("editarEmpresa/${empresa.id}")
-                            }) {
+                            // Editar - Primary color for main actions
+                            Button(
+                                onClick = { navController.navigate("editarEmpresa/${empresa.id}") },
+                                colors = ButtonDefaults.buttonColors(
+                                    containerColor = MaterialTheme.colorScheme.primary
+                                )
+                            ) {
                                 Text("Editar")
                             }
-                            Button(onClick = {
-                                navController.navigate("mapa/${empresa.id}")
-                            }) {
+                            // Ver en Mapa - Tertiary color for supplementary actions
+                            Button(
+                                onClick = { navController.navigate("mapa/${empresa.id}") },
+                                colors = ButtonDefaults.buttonColors(
+                                    containerColor = MaterialTheme.colorScheme.tertiary
+                                )
+                            ) {
                                 Text("Ver en Mapa")
                             }
-                            Button(onClick = {
-                                CoroutineScope(Dispatchers.IO).launch {
-                                    empresaDao.deleteEmpresa(empresa)
-                                }
-                            }) {
+                            // Eliminar - Error color for destructive actions
+                            Button(
+                                onClick = {
+                                    CoroutineScope(Dispatchers.IO).launch {
+                                        empresaDao.deleteEmpresa(empresa)
+                                    }
+                                },
+                                colors = ButtonDefaults.buttonColors(
+                                    containerColor = MaterialTheme.colorScheme.error
+                                )
+                            ) {
                                 Text("Eliminar")
                             }
                         }
@@ -174,9 +193,10 @@ fun EmpleadoList(
     Scaffold(
         topBar = { SmallTopAppBar(title = { Text("Empleados") }) },
         floatingActionButton = {
-            FloatingActionButton(onClick = {
-                navController.navigate("crearEmpleado/$empresaId")
-            }) {
+            FloatingActionButton(
+                onClick = { navController.navigate("crearEmpleado/$empresaId") },
+                containerColor = MaterialTheme.colorScheme.primary
+            ) {
                 Text("+")
             }
         }
@@ -199,16 +219,24 @@ fun EmpleadoList(
                     ) {
                         Text("${empleado.nombre} - ${empleado.departamento}- ${empleado.salario}")
                         Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                            Button(onClick = {
-                                navController.navigate("editarEmpleado/${empleado.id}")
-                            }) {
+                            Button(
+                                onClick = { navController.navigate("editarEmpleado/${empleado.id}") },
+                                colors = ButtonDefaults.buttonColors(
+                                    containerColor = MaterialTheme.colorScheme.primary
+                                )
+                            ) {
                                 Text("Editar")
                             }
-                            Button(onClick = {
-                                CoroutineScope(Dispatchers.IO).launch {
-                                    empleadoDao.deleteEmpleado(empleado)
-                                }
-                            }) {
+                            Button(
+                                onClick = {
+                                    CoroutineScope(Dispatchers.IO).launch {
+                                        empleadoDao.deleteEmpleado(empleado)
+                                    }
+                                },
+                                colors = ButtonDefaults.buttonColors(
+                                    containerColor = MaterialTheme.colorScheme.error
+                                )
+                            ) {
                                 Text("Eliminar")
                             }
                         }
@@ -288,7 +316,13 @@ fun CrearEmpresaScreen(empresaDao: EmpresaDao, navController: NavHostController)
                 horizontalArrangement = Arrangement.SpaceBetween,
                 modifier = Modifier.fillMaxWidth()
             ) {
-                Button(onClick = { navController.popBackStack() }) {
+                Button(
+                    onClick = { navController.popBackStack() },
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = MaterialTheme.colorScheme.surfaceVariant,
+                        contentColor = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                ) {
                     Text("Cancelar")
                 }
                 Button(onClick = {
@@ -306,7 +340,11 @@ fun CrearEmpresaScreen(empresaDao: EmpresaDao, navController: NavHostController)
                         )
                     }
                     navController.popBackStack()
-                }) {
+                },
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = MaterialTheme.colorScheme.primary
+                    )
+                ) {
                     Text("Guardar")
                 }
             }
